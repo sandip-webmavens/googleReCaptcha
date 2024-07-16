@@ -12,6 +12,16 @@
     <div class="container h-100 d-flex justify-content-center align-items-center">
         <div class="row">
             <div class="col-md-12">
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if ($errors->has('captcha'))
+                    <div class="alert alert-danger">
+                        {{ $errors->first('captcha') }}
+                    </div>
+                @endif
                 <form method="POST" action="{{ route('login') }}" class="p-4 border rounded bg-light">
                     @csrf
                     <div class="form-group">

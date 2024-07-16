@@ -1,6 +1,4 @@
 <?php
-// app/Http/Controllers/RegistrationController.php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -21,25 +19,16 @@ class RegistrationController extends Controller
             'geetest_captcha' => ['required', new GeetestCaptchaValidate]
         ]);
 
-        // Assuming the CAPTCHA validation passes and you get a response
-        $response = $this->validateCaptcha($request);
-
-        if (isset($response['result'])) {
-            $result = $response['result'];
-        } else {
-            // Handle the case where 'result' is not set
-            return redirect()->route('registration')->withErrors(['captcha' => 'Geetest CAPTCHA validation failed.']);
+        if ($this->validateCaptcha($request)['result'] === 'success') {
+            return redirect()->route('registration')->with('success', 'Geetest CAPTCHA validated successfully!');
         }
 
-        // Your login logic here
-
-        return redirect()->route('registration')->with('success', 'Geetest CAPTCHA validated successfully!');
+        return redirect()->route('registration')->withErrors(['captcha' => 'Geetest CAPTCHA validation failed.']);
     }
 
     private function validateCaptcha($request)
     {
-        // Dummy function to simulate captcha validation
-        // Replace with actual implementation
-        return ['result' => 'success']; // Example response
+
+        return ['result' => 'success'];
     }
 }
